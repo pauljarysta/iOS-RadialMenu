@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import AudioToolbox
 
 protocol RadialMenuDelegate {
 	func radialMenu(radialMenu: RadialMenu, selectedButton: UIButton)
@@ -136,7 +137,9 @@ class RadialMenu: UIView {
 	func handleLongPress(gestureRecognizer: UILongPressGestureRecognizer, touchedPoint: CGPoint) {
 	
 		if (UIGestureRecognizerState.Began == gestureRecognizer.state) {
-	
+			
+			AudioServicesPlaySystemSound(kSystemSoundID_Vibrate)
+			
 			self.anchorView!.center = touchedPoint
 			self.firstButton.center = touchedPoint
 			self.secondButton.center = touchedPoint
