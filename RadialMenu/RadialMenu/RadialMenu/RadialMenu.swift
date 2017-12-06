@@ -25,7 +25,7 @@ class RadialMenu: UIView {
 	var thirdButton: RadialButton = RadialButton()
 	
 	var displayBackgroundView: Bool?
-	var animationTime: NSTimeInterval?
+    var animationTime: TimeInterval?
 	var actionView: UIView?
 
 	var selectedButton: UIButton?
@@ -43,10 +43,10 @@ class RadialMenu: UIView {
 	}
 	
 	func baseInit() {
-		self.backgroundColor = UIColor.clearColor()
-		self.anchorView = UIView(frame: CGRectMake(0, 0, 50, 50))
+        self.backgroundColor = UIColor.clear
+		self.anchorView = UIView(frame: CGRect(x: 0, y: 0, width: 50, height: 50))
 		self.anchorView!.layer.borderWidth = 3
-		self.anchorView!.layer.borderColor = UIColor.whiteColor().CGColor
+        self.anchorView!.layer.borderColor = UIColor.white.cgColor
 		self.anchorView!.layer.cornerRadius = self.anchorView!.bounds.size.width / 2
 		self.anchorView!.alpha = 0.0
 		self.addSubview(self.anchorView!)
@@ -56,8 +56,8 @@ class RadialMenu: UIView {
 	}
 	
 	func configureWithButtons(buttons: NSArray, view: UIView, delegate: RadialMenuDelegate) {
-		self.configureButtons(buttons)
-		self.insertInView(view)
+        self.configureButtons(buttons: buttons)
+        self.insertInView(view: view)
 		self.configureGesture()
 		self.delegate = delegate
 	}
@@ -70,8 +70,8 @@ class RadialMenu: UIView {
 		for i in 0 ..< self.buttons!.count {
 			let button: UIButton = (buttons[i] as! UIButton)
 			if i == 0 {
-				self.firstButton.setTitle(button.titleLabel!.text, forState: .Normal)
-				self.firstButton.setImage(button.imageView!.image, forState: .Normal)
+				self.firstButton.setTitle(button.titleLabel!.text, for: .normal)
+                self.firstButton.setImage(button.imageView!.image, for: .normal)
 				self.firstButton.backgroundColor = button.backgroundColor
 				self.firstButton.layer.borderWidth = button.layer.borderWidth
 				self.firstButton.layer.borderColor = button.layer.borderColor
@@ -80,8 +80,8 @@ class RadialMenu: UIView {
 				self.addSubview(self.firstButton)
 			}
 			else if i == 1 {
-				self.secondButton.setTitle(button.titleLabel!.text, forState: .Normal)
-				self.secondButton.setImage(button.imageView!.image, forState: .Normal)
+				self.secondButton.setTitle(button.titleLabel!.text, for: .normal)
+				self.secondButton.setImage(button.imageView!.image, for: .normal)
 				self.secondButton.backgroundColor = button.backgroundColor
 				self.secondButton.layer.borderWidth = button.layer.borderWidth
 				self.secondButton.layer.borderColor = button.layer.borderColor
@@ -90,8 +90,8 @@ class RadialMenu: UIView {
 				self.addSubview(self.secondButton)
 			}
 			else if i == 2 {
-				self.thirdButton.setTitle(button.titleLabel!.text, forState: .Normal)
-				self.thirdButton.setImage(button.imageView!.image, forState: .Normal)
+				self.thirdButton.setTitle(button.titleLabel!.text, for: .normal)
+				self.thirdButton.setImage(button.imageView!.image, for: .normal)
 				self.thirdButton.backgroundColor = button.backgroundColor
 				self.thirdButton.layer.borderWidth = button.layer.borderWidth
 				self.thirdButton.layer.borderColor = button.layer.borderColor
@@ -104,7 +104,7 @@ class RadialMenu: UIView {
 	
 	func insertInView(view: UIView) {
 		self.radialMenuContainer = UIView()
-		self.radialMenuContainer!.backgroundColor = UIColor.blackColor().colorWithAlphaComponent(0.7)
+        self.radialMenuContainer!.backgroundColor = UIColor.black.withAlphaComponent(0.7)
 		self.radialMenuContainer!.alpha = 0.0
 		view.addSubview(self.radialMenuContainer!)
 		self.radialMenuContainer!.addSubview(self)
@@ -113,69 +113,69 @@ class RadialMenu: UIView {
 		
 		self.translatesAutoresizingMaskIntoConstraints = false
 		self.radialMenuContainer!.translatesAutoresizingMaskIntoConstraints = false
-		view.addConstraints(NSLayoutConstraint.constraintsWithVisualFormat("H:|-0-[radialMenuContainer]-0-|", options: [], metrics: nil, views: views))
-		view.addConstraints(NSLayoutConstraint.constraintsWithVisualFormat("V:|-0-[radialMenuContainer]-0-|", options: [], metrics: nil, views: views))
-		self.radialMenuContainer!.addConstraints(NSLayoutConstraint.constraintsWithVisualFormat("H:|-0-[radialMenu]-0-|", options: [], metrics: nil, views: views))
-		self.radialMenuContainer!.addConstraints(NSLayoutConstraint.constraintsWithVisualFormat("V:|-0-[radialMenu]-0-|", options: [], metrics: nil, views: views))
+        view.addConstraints(NSLayoutConstraint.constraints(withVisualFormat: "H:|-0-[radialMenuContainer]-0-|", options: [], metrics: nil, views: views))
+        view.addConstraints(NSLayoutConstraint.constraints(withVisualFormat: "V:|-0-[radialMenuContainer]-0-|", options: [], metrics: nil, views: views))
+        self.radialMenuContainer!.addConstraints(NSLayoutConstraint.constraints(withVisualFormat: "H:|-0-[radialMenu]-0-|", options: [], metrics: nil, views: views))
+        self.radialMenuContainer!.addConstraints(NSLayoutConstraint.constraints(withVisualFormat: "V:|-0-[radialMenu]-0-|", options: [], metrics: nil, views: views))
 		
 	}
 	
 	func configureGesture() {
-		let longPressGestureRecognizer: UILongPressGestureRecognizer = UILongPressGestureRecognizer(target: self, action: #selector(self.longPressAction(_:)))
+        let longPressGestureRecognizer: UILongPressGestureRecognizer = UILongPressGestureRecognizer(target: self, action: #selector(longPressAction))
 		longPressGestureRecognizer.minimumPressDuration = 0.5
 		self.radialMenuContainer!.superview!.addGestureRecognizer(longPressGestureRecognizer)
 	}
 	
-	func longPressAction(gesture: UILongPressGestureRecognizer) {
+    @objc func longPressAction(gesture: UILongPressGestureRecognizer) {
 		if (self.actionView != nil) {
-			self.pointOfView = gesture.locationInView(self.actionView)
+            self.pointOfView = gesture.location(in: self.actionView)
 		}
-		self.handleLongPress(gesture, touchedPoint: gesture.locationInView(self.radialMenuContainer!.superview))
+        self.handleLongPress(gestureRecognizer: gesture, touchedPoint: gesture.location(in: self.radialMenuContainer!.superview))
 	}
-	
 	
 	func handleLongPress(gestureRecognizer: UILongPressGestureRecognizer, touchedPoint: CGPoint) {
 	
-		if (UIGestureRecognizerState.Began == gestureRecognizer.state) {
+        if (UIGestureRecognizerState.began == gestureRecognizer.state) {
 			
-			AudioServicesPlaySystemSound(kSystemSoundID_Vibrate)
-			
+            // AudioServicesPlaySystemSound(kSystemSoundID_Vibrate)
+            self.hapticTapped(type: 6)
+            
 			self.anchorView!.center = touchedPoint
 			self.firstButton.center = touchedPoint
 			self.secondButton.center = touchedPoint
 			self.thirdButton.center = touchedPoint
 	
 			if (!self.displayBackgroundView!) {
-				self.radialMenuContainer!.backgroundColor = UIColor.clearColor()
+                self.radialMenuContainer!.backgroundColor = UIColor.clear
 			}
 	
-			UIView.animateWithDuration(self.animationTime!, animations: {() -> Void in
+            UIView.animate(withDuration: self.animationTime!, animations: {() -> Void in
 				self.radialMenuContainer!.alpha = 1.0
 				self.anchorView!.alpha = 1.0
 			})
 
 	
 			let distance: CGFloat? = 90
-			var anglesArray: [AnyObject] = self.anglesArrayWithTouchedPoint(touchedPoint, distance: distance!)
+            var anglesArray: [AnyObject] = self.anglesArrayWithTouchedPoint(touchedPoint: touchedPoint, distance: distance!)
 			if anglesArray.count > 0 {
-				self.moveButton(self.firstButton, fromPoint: touchedPoint, distance: distance!, angle: CGFloat(anglesArray[0] as! NSNumber), delay: 0.1)
+                self.moveButton(button: self.firstButton, fromPoint: touchedPoint, distance: distance!, angle: CGFloat(truncating: anglesArray[0] as! NSNumber), delay: 0.1)
 			}
 			if anglesArray.count > 1 {
-				moveButton(self.secondButton, fromPoint: touchedPoint, distance: distance!, angle: CGFloat(anglesArray[1] as! NSNumber), delay: 0.15)
+                moveButton(button: self.secondButton, fromPoint: touchedPoint, distance: distance!, angle: CGFloat(truncating: anglesArray[1] as! NSNumber), delay: 0.15)
 			}
 			if anglesArray.count > 2 {
-				self.moveButton(self.thirdButton, fromPoint: touchedPoint, distance: distance!, angle: CGFloat(anglesArray[2] as! NSNumber), delay: 0.2)
+                self.moveButton(button: self.thirdButton, fromPoint: touchedPoint, distance: distance!, angle: CGFloat(truncating: anglesArray[2] as! NSNumber), delay: 0.2)
 			}
 		}
 
-		if UIGestureRecognizerState.Ended == gestureRecognizer.state {
+        if UIGestureRecognizerState.ended == gestureRecognizer.state {
 			if (self.selectedButton != nil) {
-				self.delegate!.radialMenu(self, selectedButton: self.selectedButton!)
+                self.delegate!.radialMenu(radialMenu: self, selectedButton: self.selectedButton!)
 			}
 			else {
-				self.delegate!.radialMenuDidCancel(self)
+                self.delegate!.radialMenuDidCancel(radialMenu: self)
 			}
-			UIView.animateWithDuration(self.animationTime!, animations: {() -> Void in
+            UIView.animate(withDuration: self.animationTime!, animations: {() -> Void in
 				if self.radialMenuContainer!.alpha > 0.0 {
 					self.radialMenuContainer!.alpha = 0.0
 				}
@@ -189,45 +189,77 @@ class RadialMenu: UIView {
 			})
 		}
 		
-		if self.touchPoint(touchedPoint, isInsideView: self.firstButton) {
+        if self.touchPoint(point: touchedPoint, isInsideView: self.firstButton) {
 			self.selectedButton = self.firstButton
-			self.scaleView(self.firstButton, value: 1.5)
+			self.scaleView(view: self.firstButton, value: 1.5)
 		} else {
-			self.scaleView(self.firstButton, value: 1.0)
+			self.scaleView(view: self.firstButton, value: 1.0)
 		}
 		
-		if self.touchPoint(touchedPoint, isInsideView: self.secondButton) {
+		if self.touchPoint(point: touchedPoint, isInsideView: self.secondButton) {
 			self.selectedButton = self.secondButton
-			self.scaleView(self.secondButton, value: 1.5)
+			self.scaleView(view: self.secondButton, value: 1.5)
 		} else {
-			self.scaleView(self.secondButton, value: 1.0)
+			self.scaleView(view: self.secondButton, value: 1.0)
 		}
 		
-		if self.touchPoint(touchedPoint, isInsideView: self.thirdButton) {
+		if self.touchPoint(point: touchedPoint, isInsideView: self.thirdButton) {
 			self.selectedButton = self.thirdButton
-			self.scaleView(self.thirdButton, value: 1.5)
+            self.scaleView(view: self.thirdButton, value: 1.5)
 		} else {
-			self.scaleView(self.thirdButton, value: 1.0)
+			self.scaleView(view: self.thirdButton, value: 1.0)
 		}
 		
-		if !self.touchPoint(touchedPoint, isInsideView: self.firstButton) && !self.touchPoint(touchedPoint, isInsideView: self.secondButton) && !self.touchPoint(touchedPoint, isInsideView: self.thirdButton) {
+		if !self.touchPoint(point: touchedPoint, isInsideView: self.firstButton) && !self.touchPoint(point: touchedPoint, isInsideView: self.secondButton) && !self.touchPoint(point: touchedPoint, isInsideView: self.thirdButton) {
 			self.selectedButton = nil
 		}
 	}
+    
+    func hapticTapped(type i: Int = 0) {
+        switch i {
+            case 1:
+                let generator = UINotificationFeedbackGenerator()
+                generator.notificationOccurred(.error)
+            
+            case 2:
+                let generator = UINotificationFeedbackGenerator()
+                generator.notificationOccurred(.success)
+            
+            case 3:
+                let generator = UINotificationFeedbackGenerator()
+                generator.notificationOccurred(.warning)
+            
+            case 4:
+                let generator = UIImpactFeedbackGenerator(style: .light)
+                generator.impactOccurred()
+            
+            case 5:
+                let generator = UIImpactFeedbackGenerator(style: .medium)
+                generator.impactOccurred()
+            
+            case 6:
+                let generator = UIImpactFeedbackGenerator(style: .heavy)
+                generator.impactOccurred()
+            
+            default:
+                let generator = UISelectionFeedbackGenerator()
+                generator.selectionChanged()
+            }
+    }
 	
 
-	func moveButton(button: UIButton, fromPoint point: CGPoint, distance: CGFloat, angle: CGFloat, delay: NSTimeInterval) {
-		let x: Float = Float(distance) * cosf(Float(angle) / 180.0 * Float(M_PI))
-		let y: Float = Float(distance) * sinf(Float(angle) / 180.0 * Float(M_PI))
-		UIView.animateWithDuration(self.animationTime!, delay: delay, usingSpringWithDamping: 0.7, initialSpringVelocity: 5, options: [], animations: {() -> Void in
+    func moveButton(button: UIButton, fromPoint point: CGPoint, distance: CGFloat, angle: CGFloat, delay: TimeInterval) {
+		let x: Float = Float(distance) * cosf(Float(angle) / 180.0 * Float.pi)
+		let y: Float = Float(distance) * sinf(Float(angle) / 180.0 * Float.pi)
+        UIView.animate(withDuration: self.animationTime!, delay: delay, usingSpringWithDamping: 0.7, initialSpringVelocity: 5, options: [], animations: {() -> Void in
 			button.alpha = 1.0
-			button.center = CGPointMake(point.x + CGFloat(x), point.y + CGFloat(y))
+            button.center = CGPoint(x: point.x + CGFloat(x), y: point.y + CGFloat(y))
 			}, completion: { _ in })
 	}
 	
 	func scaleView(view: UIView, value: CGFloat) {
-		UIView.animateWithDuration(self.animationTime!, delay: 0.0, usingSpringWithDamping: 7, initialSpringVelocity: 5, options: [], animations: {() -> Void in
-			view.transform = CGAffineTransformMakeScale(value, value)
+        UIView.animate(withDuration: self.animationTime!, delay: 0.0, usingSpringWithDamping: 7, initialSpringVelocity: 5, options: [], animations: {() -> Void in
+            view.transform = CGAffineTransform(scaleX: value, y: value)
 			}, completion: { _ in })
 	}
 	
@@ -244,63 +276,63 @@ class RadialMenu: UIView {
 		}
 	
 		var positionArray: [AnyObject] = [AnyObject]()
-		let screenWidth: CGFloat = UIScreen.mainScreen().bounds.size.width
-		let screenHeight: CGFloat = UIScreen.mainScreen().bounds.size.height
+        let screenWidth: CGFloat = UIScreen.main.bounds.size.width
+        let screenHeight: CGFloat = UIScreen.main.bounds.size.height
 		let times: Int = self.buttons!.count
 		let step: Int = 45
-		positionArray = self.generateArrayFrom(270, times: times, step: -step) as [AnyObject]
+        positionArray = self.generateArrayFrom(from: 270, times: times, step: -step) as [AnyObject]
 		
 		if touched.x + distance > screenWidth {
 			// Right
-			positionArray = self.generateArrayFrom(270, times: times, step: -step) as [AnyObject]
+			positionArray = self.generateArrayFrom(from: 270, times: times, step: -step) as [AnyObject]
 			if touched.y + distance > screenHeight {
 				// Bottom right
-				positionArray = self.generateArrayFrom(270, times: times, step: -step) as [AnyObject]
+				positionArray = self.generateArrayFrom(from: 270, times: times, step: -step) as [AnyObject]
 			}
 	
 			if touched.y - distance < 60 {
 				// Top right
-				positionArray = self.generateArrayFrom(180, times: times, step: -step) as [AnyObject]
+				positionArray = self.generateArrayFrom(from: 180, times: times, step: -step) as [AnyObject]
 			}
 
 		}
 	
 		if touched.x - distance < 0 {
 			// Left
-			positionArray = self.generateArrayFrom(0, times: times, step: -step) as [AnyObject]
+			positionArray = self.generateArrayFrom(from: 0, times: times, step: -step) as [AnyObject]
 			if touched.y + distance > screenHeight {
 				// Bottom left
-				positionArray = self.generateArrayFrom(0, times: times, step: -step) as [AnyObject]
+				positionArray = self.generateArrayFrom(from: 0, times: times, step: -step) as [AnyObject]
 			}
 			if touched.y - distance < 60 {
 				// Top left
-				positionArray = self.generateArrayFrom(90, times: times, step: -step) as [AnyObject]
+				positionArray = self.generateArrayFrom(from: 90, times: times, step: -step) as [AnyObject]
 			}
 		}
 	
 		if touched.y - distance < 60 {
 			// Top
-			positionArray = self.generateArrayFrom(180, times: times, step: -step) as [AnyObject]
+			positionArray = self.generateArrayFrom(from: 180, times: times, step: -step) as [AnyObject]
 			if touched.x + distance > screenWidth {
 				// Top right
-				positionArray = self.generateArrayFrom(180, times: times, step: -step) as [AnyObject]
+				positionArray = self.generateArrayFrom(from: 180, times: times, step: -step) as [AnyObject]
 			}
 			if touched.x - distance < 0 {
 				// Top left
-				positionArray = self.generateArrayFrom(90, times: times, step: -step) as [AnyObject]
+				positionArray = self.generateArrayFrom(from: 90, times: times, step: -step) as [AnyObject]
 			}
 		}
 		
 		if touched.y + distance > screenHeight {
 			// Bottom
-			positionArray = self.generateArrayFrom(270, times: times, step: -step) as [AnyObject]
+			positionArray = self.generateArrayFrom(from: 270, times: times, step: -step) as [AnyObject]
 			if touched.x + distance > screenWidth {
 				// Bottom right
-				positionArray = self.generateArrayFrom(270, times: times, step: -step) as [AnyObject]
+				positionArray = self.generateArrayFrom(from: 270, times: times, step: -step) as [AnyObject]
 			}
 			if touched.x - distance < 0 {
 				// Bottom left
-				positionArray = self.generateArrayFrom(0, times: times, step: -step) as [AnyObject]
+				positionArray = self.generateArrayFrom(from: 0, times: times, step: -step) as [AnyObject]
 			}
 		}
 	
@@ -310,18 +342,18 @@ class RadialMenu: UIView {
 	func generateArrayFrom(from: Int, times: Int, step: Int) -> NSArray {
 		var array: [AnyObject] = [AnyObject]()
 		if step > 0 {
-			var i = from
+            var i: Int = from
 			while array.count < times {
-				array.append(i)
+                array.append(i as AnyObject)
 				i += step
 			}
 		} else {
 			var i = from
 			while array.count < times {
-				array.append(i)
+                array.append(i as AnyObject)
 				i += step
 			}
 		}
-		return array
+        return array as NSArray
 	}
 }

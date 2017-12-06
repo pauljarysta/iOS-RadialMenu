@@ -19,14 +19,14 @@ class RadialButton: UIButton {
     */
 	
 	var borderWidth: CGFloat? = 3
-	var borderColor: CGColor? = UIColor.whiteColor().CGColor
-	var backgroundBtnColor: UIColor? = UIColor.clearColor()
+    var borderColor: CGColor? = UIColor.white.cgColor
+    var backgroundBtnColor: UIColor? = UIColor.clear
 	var cornerRadius: CGFloat? = 50 / 2
 	var x: CGFloat? = 0
 	var y: CGFloat? = 0
 	var width: CGFloat? = 50
 	var height: CGFloat? = 50
-	var frameBtn: CGRect? = CGRectMake(0, 0, 50, 50)
+    var frameBtn: CGRect? = CGRect(x: 0, y: 0, width: 50, height: 50)
 	
 	required init?(coder aDecoder: NSCoder) {
 		super.init(coder: aDecoder)
@@ -39,9 +39,9 @@ class RadialButton: UIButton {
 	}
 
 	func config(borderWidth bWidth: CGFloat = 3,
-	            borderColor: CGColor = UIColor.whiteColor().CGColor,
+	            borderColor: CGColor = UIColor.white.cgColor,
 	            cornerRadius: CGFloat = 50 / 2,
-	            backgroundColor: UIColor = UIColor.clearColor()) {
+	            backgroundColor: UIColor = UIColor.clear) {
 		
 		self.layer.borderWidth = bWidth
 		self.layer.borderColor = borderColor
@@ -51,10 +51,10 @@ class RadialButton: UIButton {
 	
 	func initSetup() {
 		
-		if bounds == CGRectZero {
+		if bounds == CGRect.zero {
 			self.frame = frameBtn!
 		}
-		print(borderWidth)
+        print(borderWidth!)
 		self.layer.borderWidth = borderWidth!
 		self.layer.borderColor = borderColor!
 		self.layer.cornerRadius = cornerRadius!

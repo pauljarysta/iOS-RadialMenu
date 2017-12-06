@@ -18,23 +18,23 @@ class ViewController: UIViewController, RadialMenuDelegate {
 		
 		let radialMenu: RadialMenu = RadialMenu()
 		
-		let b1: RadialButton = RadialButton(frame: CGRectMake(0, 0, 50, 50))
-		b1.config(borderWidth: 2, borderColor: UIColor.redColor().CGColor)
-		b1.setTitle("1", forState: .Normal)
+		let b1: RadialButton = RadialButton(frame: CGRect(x: 0, y: 0, width: 50, height: 50))
+        b1.config(borderWidth: 2, borderColor: UIColor.red.cgColor)
+        b1.setTitle("1", for: .normal)
 		radialMenu.firstButton = b1
 	
-		let b2: RadialButton = RadialButton(frame: CGRectMake(0, 0, 50, 50))
+		let b2: RadialButton = RadialButton(frame: CGRect(x: 0, y: 0, width: 50, height: 50))
 		b2.config(borderWidth: 2)
-		b2.setTitle("2", forState: .Normal)
+		b2.setTitle("2", for: .normal)
 		radialMenu.secondButton = b2
 
-		let b3: RadialButton = RadialButton(frame: CGRectMake(0, 0, 50, 50))
-		b3.config(borderWidth: 2, borderColor: UIColor.blueColor().CGColor)
-		b3.setTitle("3", forState: .Normal)
+		let b3: RadialButton = RadialButton(frame: CGRect(x: 0, y: 0, width: 50, height: 50))
+		b3.config(borderWidth: 2, borderColor: UIColor.blue.cgColor)
+		b3.setTitle("3", for: .normal)
 		radialMenu.thirdButton = b3
 
 		// Configuring radial menu with buttons
-		radialMenu.configureWithButtons([b1, b2, b3], view: self.view!, delegate: self)
+        radialMenu.configureWithButtons(buttons: [b1, b2, b3], view: self.view!, delegate: self)
 		
 		// Display or not the fade vuew on the background
 		radialMenu.displayBackgroundView = true
@@ -43,7 +43,7 @@ class ViewController: UIViewController, RadialMenuDelegate {
 		radialMenu.animationTime = 0.25
 		
 		// The color of the fade view on the background. Default is black with alpha 0.7
-		radialMenu.radialMenuContainer!.backgroundColor = UIColor.blackColor().colorWithAlphaComponent(0.7)
+        radialMenu.radialMenuContainer!.backgroundColor = UIColor.black.withAlphaComponent(0.7)
 
 		/*
 		The action region of the menu: the region in which the menu is active and from which it cinfigure its position.
@@ -67,13 +67,13 @@ class ViewController: UIViewController, RadialMenuDelegate {
 			doActionButton3()
 		}
 		
-		let alert: UIAlertController = UIAlertController(title: "Button selected", message: "Button \(selectedButton.tag) selected", preferredStyle: .Alert)
+		let alert: UIAlertController = UIAlertController(title: "Button selected", message: "Button \(selectedButton.tag) selected", preferredStyle: .alert)
 		
-		let okAction: UIAlertAction = UIAlertAction(title: "OK", style: .Default, handler: {(action: UIAlertAction) -> Void in
+        let okAction: UIAlertAction = UIAlertAction(title: "OK", style: .default, handler: {(action: UIAlertAction) -> Void in
 			
 		})
 		alert.addAction(okAction)
-		self.presentViewController(alert, animated: true, completion: { _ in })
+        self.present(alert, animated: true, completion: nil)
 	}
 	
 	func radialMenuDidCancel(radialMenu: RadialMenu) {
