@@ -135,7 +135,7 @@ class RadialMenu: UIView {
 	
 	func handleLongPress(gestureRecognizer: UILongPressGestureRecognizer, touchedPoint: CGPoint) {
 	
-        if (UIGestureRecognizerState.began == gestureRecognizer.state) {
+		if (UIGestureRecognizer.State.began == gestureRecognizer.state) {
 			
             // AudioServicesPlaySystemSound(kSystemSoundID_Vibrate)
             self.hapticTapped(type: 6)
@@ -156,7 +156,7 @@ class RadialMenu: UIView {
 
 	
 			let distance: CGFloat? = 90
-            var anglesArray: [AnyObject] = self.anglesArrayWithTouchedPoint(touchedPoint: touchedPoint, distance: distance!)
+			let anglesArray: [AnyObject] = self.anglesArrayWithTouchedPoint(touchedPoint: touchedPoint, distance: distance!)
 			if anglesArray.count > 0 {
                 self.moveButton(button: self.firstButton, fromPoint: touchedPoint, distance: distance!, angle: CGFloat(truncating: anglesArray[0] as! NSNumber), delay: 0.1)
 			}
@@ -168,7 +168,7 @@ class RadialMenu: UIView {
 			}
 		}
 
-        if UIGestureRecognizerState.ended == gestureRecognizer.state {
+		if UIGestureRecognizer.State.ended == gestureRecognizer.state {
 			if (self.selectedButton != nil) {
                 self.delegate!.radialMenu(radialMenu: self, selectedButton: self.selectedButton!)
 			}
